@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+
+
 import bean.Otp;
 import bean.User;
 import connection.ConnectionProvider;
@@ -37,6 +39,7 @@ public class StudentImpl implements StudentInterface{
 
 	@Override
 	public String register(User user) {
+		
 			connection=ConnectionProvider.getConn();
 		try {
 			
@@ -53,6 +56,7 @@ public class StudentImpl implements StudentInterface{
 						preparedStatement2.setString(2, user.getPassword());
 						preparedStatement2.setString(3, user.getEmail());
 						preparedStatement2.executeUpdate();
+						return "success";
 					}
 			
 		} catch (Exception e) {

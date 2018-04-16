@@ -5,12 +5,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import bean.User;
 import studentInterfaceImpl.StudentImpl;
 
@@ -18,41 +22,56 @@ import studentInterfaceImpl.StudentImpl;
 public class Test {
 	User user=null;
 	StudentImpl studentImpl=null;
+	Test test=null;
 	
 	//using post
-	/*@Path("register")
+	
+	@Path("register")
 	@POST 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String getRegister(String json){
 		 studentImpl=new StudentImpl();
+		 String msg=null;
+		 
+		 
 	
-		JsonParser jsonParser=new JsonParser();
-		JsonElement jsonElement=jsonParser.parse(json);
-		if(jsonElement.isJsonObject()){
+		//JsonParser jsonParser=new JsonParser();
+		//JsonElement jsonElement=jsonParser.parse(json);
+		JSONObject JObject = new JSONObject(json);
+	    JSONArray result = JObject.getJSONArray("student");
+		
+			//org.json.JSONObject jsonObject=new org.json.JSONObject(json);
+			//org.json.JSONArray value=jsonObject.getJSONArray("student");
 			
-			JsonObject jsonObject=jsonElement.getAsJsonObject();
+        System.out.println(result.length());
+		 for(int i=0;i<result.length();i++) {
 			
+			// JsonObject jsonObject1=jsonElement.getAsJsonObject();
+			user=new User(result.getJSONObject(i).getString("name"),result.getJSONObject(i).getString("password"),result.getJSONObject(i).getString("email"));
 		
-			user=new User(jsonObject.get("name").getAsString(),jsonObject.get("password").getAsString(),jsonObject.get("email").getAsString());
-		}
 		
-		
-		String msg=studentImpl.register(user);
+		 msg=studentImpl.register(user);
+		 }
 		if(msg.equals("success")) {
 			
-			return "{'msg' : 'fail'}";
+			return "{'msg' : 'success'}";
 		}
 		else if(msg.equals("fail")) {
 			
 			return "{'msg' : 'success'}";
 		}
+		 
 		else{
 			return "User already exist";
-		}	
-	}*/
+		
+		}
+	
+		
+		
+	}
 	//using get
-	@Path("register/{name}/{password}/{email}")
+	/*@Path("register/{name}/{password}/{email}")
 	@GET
 	public String getRegister(@PathParam("name")String name,@PathParam("password")String password,@PathParam("email")String email ){
 		 studentImpl=new StudentImpl();
@@ -72,9 +91,9 @@ public class Test {
 		else{
 			return "User already exist";
 		}	
-	}
+	}*/
 	//using get..
-	@Path("login/{email}/{password}")
+/*	@Path("login/{email}/{password}")
 	@GET
 	public String getlogin(@PathParam("email")String email,@PathParam("password")String password) {
 		
@@ -95,10 +114,10 @@ public class Test {
 		else{
 			return "{'msg' : 'Please register first'}";
 		}
-	}
+	}*/
 	
 	//using post
-	/*@Path("login")
+	@Path("login")
 	@POST 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -123,10 +142,10 @@ public class Test {
 		else{
 			return "{'msg' : 'Please register first'}";
 		}
-	}*/
+	}
 	
 	//using post
-/*	@Path("delete")
+	@Path("delete")
 	@POST 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -147,10 +166,10 @@ public class Test {
 		else{
 			return "{'msg' : 'wrong email id'}";
 		}	
-	}*/
+	}
 	
 	//using get
-	@Path("delete/{id}")
+	/*@Path("delete/{id}")
 	@GET 
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getDelete(@PathParam("id") String emailId){
@@ -170,11 +189,11 @@ public class Test {
 			return "{'msg' : 'wrong email id'}";
 		}
 	}
-	
+	*/
 	
 	
 	//using get
-	@Path("findId/{id}")
+	/*@Path("findId/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String findId(@PathParam("id") String emailId){
@@ -193,10 +212,10 @@ public class Test {
 			return "{'msg' : 'email id not exist'}";
 		}	
 	}
-
+*/
 	//using post..
 	
-	/*@Path("findId")
+	@Path("findId")
 	@POST 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -217,10 +236,11 @@ public class Test {
 		else{
 			return "{'msg' : 'email id not exist'}";
 		}	
-	}*/
+	}
 	
 	@Path("findAllId")
-	@GET
+	//@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String findAllId(String json){
